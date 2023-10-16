@@ -1,0 +1,545 @@
+MyE2EModel(
+  (encoder): Encoder(
+    (pos_emb): Embedding(3000, 512)
+    (convs): Sequential(
+      (0): Conv1d(80, 256, kernel_size=(5,), stride=(1,), padding=(2,), bias=False)
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU()
+      (3): Dropout(p=0.1, inplace=False)
+      (4): Conv1d(256, 256, kernel_size=(5,), stride=(1,), padding=(2,), bias=False)
+      (5): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (6): ReLU()
+      (7): Dropout(p=0.1, inplace=False)
+      (8): Conv1d(256, 512, kernel_size=(5,), stride=(1,), padding=(2,), bias=False)
+      (9): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (10): ReLU()
+      (11): Dropout(p=0.1, inplace=False)
+    )
+    (blocks): ModuleList(
+      (0-11): 12 x ResidualAttentionBlock(
+        (attn): MultiHeadAttention(
+          (query): Linear(in_features=512, out_features=512, bias=True)
+          (key): Linear(in_features=512, out_features=512, bias=False)
+          (value): Linear(in_features=512, out_features=512, bias=True)
+          (out): Linear(in_features=512, out_features=512, bias=True)
+          (layer_norm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+        (attn_ln): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        (pos_ffn): PositionwiseFeedForward(
+          (w_1): Conv1d(512, 2048, kernel_size=(5,), stride=(1,), padding=(2,))
+          (w_2): Conv1d(2048, 512, kernel_size=(1,), stride=(1,))
+          (layer_norm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+    (dropout): Dropout(p=0.1, inplace=False)
+  )
+  (decoder): Decoder(
+    (blocks): ModuleList(
+      (0-11): 12 x ResidualAttentionBlock(
+        (attn): MultiHeadAttention(
+          (query): Linear(in_features=512, out_features=512, bias=True)
+          (key): Linear(in_features=512, out_features=512, bias=False)
+          (value): Linear(in_features=512, out_features=512, bias=True)
+          (out): Linear(in_features=512, out_features=512, bias=True)
+          (layer_norm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+        (attn_ln): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        (cross_attn): MultiHeadAttention(
+          (query): Linear(in_features=512, out_features=512, bias=True)
+          (key): Linear(in_features=512, out_features=512, bias=False)
+          (value): Linear(in_features=512, out_features=512, bias=True)
+          (out): Linear(in_features=512, out_features=512, bias=True)
+          (layer_norm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+        (cross_attn_ln): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        (pos_ffn): PositionwiseFeedForward(
+          (w_1): Conv1d(512, 2048, kernel_size=(5,), stride=(1,), padding=(2,))
+          (w_2): Conv1d(2048, 512, kernel_size=(1,), stride=(1,))
+          (layer_norm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+    (pos_emb): Embedding(1000, 512)
+  )
+  (classifier): Linear(in_features=512, out_features=2920, bias=False)
+)
+epoch 1/20:
+n_batch:4750
+    train loss: 0.599474
+    train token error rate: 96.272552 %
+n_batch:125
+    validation loss: 0.507631
+    validation token error rate: 86.597433 %
+train    reference:   <sos>熱意が感じられる良いプレゼンだった<eos>
+train    hypothesis:  <sos>こしはちにじった<eos>
+train    reference:   <sos>人の自尊心を皮肉るように使われることがある<eos>
+train    hypothesis:  <sos>こししがかしとる<eos>
+train    reference:   <sos>豆腐ハンバーグはハンバーグとは認めない<eos>
+train    hypothesis:  <sos>こなななててない<eos>
+train    reference:   <sos>うろたえずに輸出依存の体質を徐々に見直していく作業が大切になる<eos>
+train    hypothesis:  <sos>こかジ識さてさしてさて的なる<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>そかし作てはかかすのかしである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>そとててのとそそ主とけ自とである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>こなたはこきてかなる<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>そししはそして主的的在作のばない<eos>
+epoch 2/20:
+n_batch:4750
+    train loss: 0.344737
+    train token error rate: 66.666548 %
+n_batch:125
+    validation loss: 0.264073
+    validation token error rate: 54.203067 %
+train    reference:   <sos>ずいぶん簡単なトリックだったな<eos>
+train    hypothesis:  <sos>つ分間タが取りッくだったな<eos>
+train    reference:   <sos>そこでは個物はなお真に表現作用的でない<eos>
+train    hypothesis:  <sos>作こでは個物は来信に表現作を的でない<eos>
+train    reference:   <sos>その後用語はすべての重要な意味を失いました<eos>
+train    hypothesis:  <sos>その後常ををすての十要来にをしないました<eos>
+train    reference:   <sos>死傷者は合計１０００名となったということだ<eos>
+train    hypothesis:  <sos>知常者は行き習メきなったということだ<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>分体がサっかにも使感係は必ざがかに対するのと同時である<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>現体の不フはクりもみより験気子のことがいがそれは創したをくりものは必要でもなければ目ばしもないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>もゆる後と思ないこのく月めよくはからないね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>動週の最中は一者の考をも人境に時かも的れだけ技族に環者をつかなければならない<eos>
+epoch 3/20:
+n_batch:4750
+    train loss: 0.209204
+    train token error rate: 48.897864 %
+n_batch:125
+    validation loss: 0.195346
+    validation token error rate: 44.785167 %
+train    reference:   <sos>十日までにこの仕事をしなければなりません<eos>
+train    hypothesis:  <sos>東かまでにこの仕事をしなければなりません<eos>
+train    reference:   <sos>土候領の他のどこがどうあれここだけは万余の海賊が押し寄せても揺がないぞという盤石の備えが誇らしげに見えている<eos>
+train    hypothesis:  <sos>ど行料の他のどがどわれこだちはマ々の解族が使用せても夜がな女とい万逆の姿がこしに見えている<eos>
+train    reference:   <sos>歌が下手ですから練習しようと思っています<eos>
+train    hypothesis:  <sos>たが下手ですから電習仕よと思っています<eos>
+train    reference:   <sos>ハッセイはゲイリー・ニューマンザキュアーとライブで演奏した<eos>
+train    hypothesis:  <sos>性はゲーリーニまザきアとライブてそした<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>文体がさ家にも使関係は式きさが中に対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年パの風フはクりもより転気をこの子が多いがそれはそし遅りもは必要用でもなければ僕場所もないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>もエるゴと思なごの区別くはからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>ノしつの最中はリシも関後フも新長にしもできるだけジ属に観女を発わなければならない<eos>
+epoch 4/20:
+n_batch:4750
+    train loss: 0.154574
+    train token error rate: 40.271085 %
+n_batch:125
+    validation loss: 0.163031
+    validation token error rate: 38.866108 %
+train    reference:   <sos>このアルバム曲のおかげで自分たちの世界が広がり有名になれた<eos>
+train    hypothesis:  <sos>このあるが無のかげで自分ちの世界が広がり有命になれた<eos>
+train    reference:   <sos>手づかみでホールケーキをひとりで食べきる<eos>
+train    hypothesis:  <sos>手づかで合ールケキをひ人て食べきる<eos>
+train    reference:   <sos>その後DadoVilla-Lobosがギターを引き継ぎバンドのクラシックなラインアップができました<eos>
+train    hypothesis:  <sos>その子タと限な動ゴスはイーターを受ケスキバンドのクラシックなにアができました<eos>
+train    reference:   <sos>手毬のように丸い形に握った寿司をてまり寿司と呼ぶ<eos>
+train    hypothesis:  <sos>エまりのように丸悪い形ににげったすしを生まりずした呼ぶ<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>文体が作たにも物関係は式際がかに対するのとな味である<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>伝代の風フはクリモむより天金をこむことが多がそれはそしを送りもは必要でもなければく場しもないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>前ル後みとえないごみの区別もよくわからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>同種の最中はイ者も考を不も新境にしかもできるだけ時族に感者を暑わなければならない<eos>
+epoch 5/20:
+n_batch:4750
+    train loss: 0.121245
+    train token error rate: 34.568257 %
+n_batch:125
+    validation loss: 0.149013
+    validation token error rate: 33.651275 %
+train    reference:   <sos>どれだけ成績が優秀でも失言が多くて困る<eos>
+train    hypothesis:  <sos>どれだ規制績が優集でも言が多くて困る<eos>
+train    reference:   <sos>ナメクジには雄雌の区別はない<eos>
+train    hypothesis:  <sos>並クジにはす別の区別はない<eos>
+train    reference:   <sos>急にダメになったけど何かあったのかな<eos>
+train    hypothesis:  <sos>注にダめになっててるなんかったかな<eos>
+train    reference:   <sos>おどけてみせることで落ちつかせる<eos>
+train    hypothesis:  <sos>どけて見せることで落ちつかせる<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>文隊がサ家にもつ関係は式材がかに対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年在の風府は送りものより現金をこむことが多いがそれはそしを送物のは必要でもなければ目場しもないからである
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>モ色ゴみと思えないゴみの区別もよくわからないよね
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>動手術の最中はい者も考後不も新重にしかも出きるだけ自族に観者を扱わなければならない
+epoch 6/20:
+n_batch:4750
+    train loss: 0.097377
+    train token error rate: 30.300159 %
+n_batch:125
+    validation loss: 0.133506
+    validation token error rate: 34.132644 %
+train    reference:   <sos>あそこの角を右に曲がるとスーパーがあります<eos>
+train    hypothesis:  <sos>あそこの角どを右に曲がるとスーパーがあります<eos>
+train    reference:   <sos>し<eos>
+train    hypothesis:  <sos>し<eos>
+train    reference:   <sos>まるでゲームの世界から出てきたみたいだ<eos>
+train    hypothesis:  <sos>までゲムは世界か適たみたいだ<eos>
+train    reference:   <sos>平穏な日々って仕事も家賃もないことかい？<eos>
+train    hypothesis:  <sos>平よな日々いって仕事もや賃もないこ事買<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>文隊がサ家にもつ関係は指細が中に対するのとなじである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年パの風婦は送リもより現金を好むことが多がそれはそしたを送ものは必要でもなければ奥場しもないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>燃えルゴミと思えないゴミの区別もよく分からないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>農手術の最中は医者も感を踏も新重にしかもできるだけ人続に感者を扱わなければならない<eos>
+epoch 7/20:
+n_batch:4750
+    train loss: 0.078618
+    train token error rate: 26.871174 %
+n_batch:125
+    validation loss: 0.130426
+    validation token error rate: 32.973792 %
+train    reference:   <sos>親に見つからないようひたひた歩いてた<eos>
+train    hypothesis:  <sos>お親に見つからないよひた人た歩いてた<eos>
+train    reference:   <sos>痛みを感じない<eos>
+train    hypothesis:  <sos>痛みを感じない<eos>
+train    reference:   <sos>価値観を押しつけるのはよくない<eos>
+train    hypothesis:  <sos>価値観をしつけるのはよくない<eos>
+train    reference:   <sos>どうだ許せるか？<eos>
+train    hypothesis:  <sos>どうだ許せるか<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>文隊が殺っ家にもつ関係は色材がかに対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>伝パの夫婦は送リ物より研金を好むことが多いがそれはそし送り物は必要でもなければく場しもないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>思えルゴと思えないゴミの区別もよくわからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>ロう手術の最中は医者も観ご踏も信張にし下もできるだけ自続に感者を扱わなければならない<eos>
+epoch 8/20:
+n_batch:4750
+    train loss: 0.063641
+    train token error rate: 23.968829 %
+n_batch:125
+    validation loss: 0.124630
+    validation token error rate: 31.877340 %
+train    reference:   <sos>世界は自己に対してあるもの即ち対象界と考えられ自己はどこか世界の外にあるものの如く考えられている<eos>
+train    hypothesis:  <sos>世界は自己に対してあるもの即ち対象界と考えられ自己はどこか世界の外にあるものの如く考えられている<eos>
+train    reference:   <sos>その後彼はカリフォルニア州に向かい最初は肖像画家として働いた<eos>
+train    hypothesis:  <sos>その後彼はカリフォルニア州に向かい最初は少像和かとして働いた<eos>
+train    reference:   <sos>マールバラを際立たせたのはこの能力の範囲だった<eos>
+train    hypothesis:  <sos>マールバラを地立たせたのはこの能力の範囲だった<eos>
+train    reference:   <sos>今声優は大人気の職業らしい<eos>
+train    hypothesis:  <sos>今声優は大人気の職業らしい<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>文隊がサ家にも物関係は式材がかに対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年配の夫婦は送りものより研金を好むことが多いがそれはそしたを送り物は必要でもなければ北場所もないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>燃エルゴと思えない込みの区別もよくわからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>脳手術の最中は医者も感護フも信長にしかも出来るだけ実属にカ者を扱わなければならない<eos>
+epoch 9/20:
+n_batch:4750
+    train loss: 0.052477
+    train token error rate: 21.654504 %
+n_batch:125
+    validation loss: 0.123104
+    validation token error rate: 31.431628 %
+train    reference:   <sos>うちの犬はとても大きいです<eos>
+train    hypothesis:  <sos>うちの犬はとても大きいです<eos>
+train    reference:   <sos>今はこの言葉だけを覚えておいてください<eos>
+train    hypothesis:  <sos>いまはこの言葉だけを覚えておいてください<eos>
+train    reference:   <sos>フニャディは彼に提出を強制することができなかった<eos>
+train    hypothesis:  <sos>ブニャアディーは彼に提を調制することができなかった<eos>
+train    reference:   <sos>このメルマガは昨今の語学産業界の甘言に躍らされることなく文法解釈という古典的学習法こそ王道と信じて疑わない方のためのメルマガです<eos>
+train    hypothesis:  <sos>こメルマガは作高の五学くさ業界の関連にドらされることなく文邦会釈という個転的学習方こそ応道と信じて疑わない方のためのめるマがです<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>文体が作家にも物関係は指細が家に対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年パの風婦は送リ物より元金を好むことが多いがそれはそうした送る物は必要でもなければく場所もないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>もえルゴミと思えないごミの区別もよくわからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>農シずの最中は医者もカ護踏も新境にし下もできるだけ人族に患者を扱わなければならない<eos>
+epoch 10/20:
+n_batch:4750
+    train loss: 0.043138
+    train token error rate: 19.780867 %
+n_batch:125
+    validation loss: 0.120517
+    validation token error rate: 30.459975 %
+train    reference:   <sos>毎日忙しいですしかし大変楽しいです<eos>
+train    hypothesis:  <sos>毎日忙しでしし大変楽しいです
+train    reference:   <sos>今晩わたしは駅で小林さんを待ちます<eos>
+train    hypothesis:  <sos>今晩わたしは駅で小林さんを待ちます<eos>
+train    reference:   <sos>ここにおいて個物は既に機械的でもなく単に合目的的でもなく形成的でなければならない<eos>
+train    hypothesis:  <sos>ここにおいて個物は既に機械的でもなく単に合目的的でもなく形成的でなければならない<eos>
+train    reference:   <sos>ある日曜日の朝のことお父さんとお母さんは教会へ行く支度をしていました<eos>
+train    hypothesis:  <sos>ある日曜日の朝のことお父さんとお母さんは教会へ行くしたをしていました<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>文体が殺っ家に持つ関係は式細がかに対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年配の風婦は送り物より金を好むことが多いがそれはそうした繰る物は必要でもなければ場所もないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>もエルゴと思えない込みの区べ別もよくわからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>ノ手術の最中は医者も感護ほも新重にし下も出きるだけ人続に感者を扱わなければならない<eos>
+epoch 11/20:
+n_batch:4750
+    train loss: 0.035906
+    train token error rate: 18.229317 %
+n_batch:125
+    validation loss: 0.122107
+    validation token error rate: 30.085577 %
+    (Decay learning rate: 1.000000 -> 0.500000)
+train    reference:   <sos>習慣は絶えず破られるであろう<eos>
+train    hypothesis:  <sos>習慣は絶えず破られるであろう<eos>
+train    reference:   <sos>客はみんな黙々と食事をしている<eos>
+train    hypothesis:  <sos>客はみんな僕々と食事をしている<eos>
+train    reference:   <sos>ヤバい頭おかしいだろこれ<eos>
+train    hypothesis:  <sos>ヤバい頭おかしいだろこれ<eos>
+train    reference:   <sos>円座して反省会をする<eos>
+train    hypothesis:  <sos>円座して反省会をする<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>文体がサ家にもつ関係は指材がかに対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年敗の風婦は送り物より金を好むことが多いがそれはそうした送りもは必要でもなければしもないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>もールゴミと思えないゴミの区別もよくわからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>農手術つの最中は医者も勘護フも慎境にしかも出きるだけ事族に感者を扱わなければならない<eos>
+epoch 12/20:
+n_batch:4750
+    train loss: 0.017522
+    train token error rate: 13.795011 %
+n_batch:125
+    validation loss: 0.114238
+    validation token error rate: 28.213585 %
+train    reference:   <sos>毎日うどん飽きずにうどん<eos>
+train    hypothesis:  <sos>毎日うどん飽きずにうどん<eos>
+train    reference:   <sos>地球表層を覆う地殻プレートの運動を探るのがこの実験の眼目だ<eos>
+train    hypothesis:  <sos>地球表層を覆う地殻プレートの運動を探るのがこの実験の眼目だ<eos>
+train    reference:   <sos>このお店昔からラーメンの値段は変えてない<eos>
+train    hypothesis:  <sos>このお店昔からラーメンの値段は変えてない<eos>
+train    reference:   <sos>ジャムの中でイチゴジャムが一番好きだ<eos>
+train    hypothesis:  <sos>ジャムの中でイチゴジャムが一番好きだ<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>分隊がサ家にも物関係は色彩が家に対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年配の夫婦は送り物より原金を好むことが多いがそれはそした送り者は必要でもなければお場所もないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>燃えるゴと燃えないごミの区別もよくわからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>農手術の最中は医者も間護踏も新境にしかも出来るだけ人族に患者を扱わなければならない<eos>
+epoch 13/20:
+n_batch:4750
+    train loss: 0.010878
+    train token error rate: 12.027747 %
+n_batch:125
+    validation loss: 0.116685
+    validation token error rate: 28.048672 %
+    (Decay learning rate: 0.500000 -> 0.250000)
+train    reference:   <sos>絶対矛盾的自己同一としての歴史的現在の世界においては種々なる自己自身を限定する形即ち種々なる生産様式が成立する<eos>
+train    hypothesis:  <sos>絶対矛盾的自己同一としての歴史的現在の世界においては種々なる自己自身を限定する形即ち種々なる生産様式が成立する<eos>
+train    reference:   <sos>創作料理より手抜き料理の方が評判いい<eos>
+train    hypothesis:  <sos>創作料理より手抜き料理の方が評判いい<eos>
+train    reference:   <sos>全く知りません<eos>
+train    hypothesis:  <sos>全く知りません<eos>
+train    reference:   <sos>一つの世界である<eos>
+train    hypothesis:  <sos>一つの世界である<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>文隊がサ家にもつ関係は指細がかに対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年配の夫婦は後リ物ルより元金を好むことが多いがそれはそうし贈り物は必要でもなければ場所もないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>燃エルゴミと思えない込みの区別もよくわからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>脳取術つの最中は医者もカ護踏も慎重にし下も出来るだけ人族に患者を扱わなければならない<eos>
+epoch 14/20:
+n_batch:4750
+    train loss: 0.005110
+    train token error rate: 10.371011 %
+n_batch:125
+    validation loss: 0.117594
+    validation token error rate: 27.157247 %
+    (Decay learning rate: 0.250000 -> 0.125000)
+train    reference:   <sos>「メキシコでElectricMayhemを主役とした一時間のミュージカル」も提案されました<eos>
+train    hypothesis:  <sos>「メキシコでlectricMayhenmを主役とした一時間のミュージカル」も提案されました<eos>
+train    reference:   <sos>おからドーナツはヘルシーだからとたくさん食べてしまい太る<eos>
+train    hypothesis:  <sos>おからドーナツはヘルシーだからとたくさん食べてしまい太る<eos>
+train    reference:   <sos>カウンターではテニスシューズを販売している<eos>
+train    hypothesis:  <sos>カウンターではテニスシューズを販売している<eos>
+train    reference:   <sos>設置の手間が増えて大画面をあきらめた<eos>
+train    hypothesis:  <sos>設置の手間が増えて大画面をあきらめた<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>分隊がサ家にもつ関係は色彩がかに対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年配の夫婦は送り物より元金を好むことが多いがそれはそし送り物は必要でもなければ屋馬所もないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>燃エルゴミと思えないゴミの区別もよくわからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>脳手術の最中は医者も缶護踏も慎重にし下も出来るだけ人族に患者を扱わなければならない<eos>
+epoch 15/20:
+n_batch:4750
+    train loss: 0.002525
+    train token error rate: 9.599095 %
+n_batch:125
+    validation loss: 0.118597
+    validation token error rate: 26.680335 %
+train    reference:   <sos>しち<eos>
+train    hypothesis:  <sos>しち<eos>
+train    reference:   <sos>再び常識が作られこれによって人間は生活するようになる<eos>
+train    hypothesis:  <sos>再び常識が作られこれによって人間は生活するようになる<eos>
+train    reference:   <sos>それが歴史的種と考えられるものであり即ち種々なる社会である<eos>
+train    hypothesis:  <sos>それが歴史的種と考えられるものであり即ち種々なる社会である<eos>
+train    reference:   <sos>現象即実在として真に自己自身によって動き行く創造的世界は右の如き世界でなければならない<eos>
+train    hypothesis:  <sos>現象即実在として真に自己自身によって動き行く創造的世界は右の如き世界でなければならない<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>分隊が作家にもつ関係は色彩がかに対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年配の夫婦は送り物より元金を好むことが多いがそれはそうし送り物は必要でもなければ屋馬所もないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>燃エルゴミと思えないごミの区別もよくわからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>脳手術の最中は医者も間護踏も慎重にし下も出来るだけ人族に患者を扱わなければならない<eos>
+epoch 16/20:
+n_batch:4750
+    train loss: 0.001707
+    train token error rate: 9.374714 %
+n_batch:125
+    validation loss: 0.121773
+    validation token error rate: 26.822963 %
+train    reference:   <sos>我々が意識から脱け出るのは身体に依ってである<eos>
+train    hypothesis:  <sos>我々が意識から脱け出るのは身体に依ってである<eos>
+train    reference:   <sos>彼女には多少衝動的な面もあるが決して無計画な人間ではない<eos>
+train    hypothesis:  <sos>彼女には多少衝動的な面もあるが決して無計画な人間ではない<eos>
+train    reference:   <sos>どこまでも行為的直観的に実在を把握し行くことでなければならない<eos>
+train    hypothesis:  <sos>どこまでも行為的直観的に実在を把握し行くことでなければならない<eos>
+train    reference:   <sos>前後に二輪のポニー台車を装着<eos>
+train    hypothesis:  <sos>前後に二輪のポニー台車を装着<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>文体が作家にもつ関係は色彩がかに対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年配の風婦は送り物より元金を好むことが多いがそれはそうし送り物は必要でもなければ屋馬所もないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>燃エルゴミと思えないごミの区別もよくわからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>脳手術の最中は医者も韓護フも慎重にし下も出来るだけ人族に患者を扱わなければならない<eos>
+epoch 17/20:
+n_batch:4750
+    train loss: 0.001240
+    train token error rate: 9.249346 %
+n_batch:125
+    validation loss: 0.124847
+    validation token error rate: 26.889820 %
+train    reference:   <sos>髪を縮らせるヘアスタイルが流行している<eos>
+train    hypothesis:  <sos>髪を縮らせるヘアスタイルが流行している<eos>
+train    reference:   <sos>ゲーム機はパソコンの代わりにはならない<eos>
+train    hypothesis:  <sos>ゲーム機はパソコンの代わりにはならない<eos>
+train    reference:   <sos>もうそろそろスタミナあふれるな<eos>
+train    hypothesis:  <sos>もうそろそろスタミナあふれるな<eos>
+train    reference:   <sos>このロゴどこかで見たような気がするんだよなあ<eos>
+train    hypothesis:  <sos>このロゴどこかで見たような気がするんだよなあ<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>分隊が作家にもつ関係は色彩がかに対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年配の夫婦は送り物より元金を好むことが多いがそれはそうし送り物は必要でもなければ屋波所もないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>燃エルゴミと思えないごミの区別もよくわからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>脳手術の最中は医者も管護フも慎重にし下も出来るだけ人族に患者を扱わなければならない<eos>
+epoch 18/20:
+n_batch:4750
+    train loss: 0.000930
+    train token error rate: 9.173484 %
+n_batch:125
+    validation loss: 0.126906
+    validation token error rate: 26.809592 %
+train    reference:   <sos>かようにして知っていると共に知っていないところから探求は始まるのである<eos>
+train    hypothesis:  <sos>かようにして知っていると共に知っていないところから探求は始まるのである<eos>
+train    reference:   <sos>えもうこんな時間？<eos>
+train    hypothesis:  <sos>えもうこんな時間？<eos>
+train    reference:   <sos>ピーマンは半分に切りヘタを取っておく<eos>
+train    hypothesis:  <sos>ピーマンは半分に切りヘタを取っておく<eos>
+train    reference:   <sos>興味がなくても楽しくなくても上手くなっていく<eos>
+train    hypothesis:  <sos>興味がなくても楽しくなくても上手くなっていく<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>分隊が作家にもつ関係は色彩がかに対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年配の夫婦は送り物より元金を好むことが多いがそれはそうし送り物は必要でもなければ屋波所もないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>燃エルゴミと思えないごミの区別もよくわからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>脳手術の最中は医者も韓フも慎重にし下も出来るだけ人族に患者を扱わなければならない<eos>
+epoch 19/20:
+n_batch:4750
+    train loss: 0.000707
+    train token error rate: 9.123859 %
+n_batch:125
+    validation loss: 0.129738
+    validation token error rate: 26.760563 %
+train    reference:   <sos>サン・ビューヴの『肖像画コンテンポラリーヌ』にパルニーの似顔絵があります<eos>
+train    hypothesis:  <sos>サン・ビューヴの『肖像画コンテンポラリーヌ』にパルニーの似顔絵があります<eos>
+train    reference:   <sos>いい職人は仕事というものは覚えれば覚えるほど難しくなるといいます<eos>
+train    hypothesis:  <sos>いい職人は仕事というものは覚えれば覚えるほど難しくなるといいます<eos>
+train    reference:   <sos>我々は生物的個体として既に自己否定的に世界を映すことによって欲求的である本能作用的に形成的である<eos>
+train    hypothesis:  <sos>我々は生物的個体として既に自己否定的に世界を映すことによって欲求的である本能作用的に形成的である<eos>
+train    reference:   <sos>OnStarサービスでは緊急時にOnStarコールセンターにお問い合わせいただけます<eos>
+train    hypothesis:  <sos>OnStarサービスでは緊急時にOnStarコールセンターにお問い合わせいただけます<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>分体が作家にもつ関係は色彩がかに対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年配の夫婦は送り物より元金を好むことが多いがそれはそうした送り物は必要でもなければ屋波所もないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>燃エルゴミと思えないごミの区別もよくわからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>脳手術の最中は医者も韓護フも慎重にし下も出来るだけ人族に患者を扱わなければならない<eos>
+epoch 20/20:
+n_batch:4750
+    train loss: 0.000542
+    train token error rate: 9.089193 %
+n_batch:125
+    validation loss: 0.131925
+    validation token error rate: 26.907648 %
+train    reference:   <sos>ご飯にする？<eos>
+train    hypothesis:  <sos>ご飯にする？<eos>
+train    reference:   <sos>何故か不意に自分の少年時代を思い浮かべた<eos>
+train    hypothesis:  <sos>何故か不意に自分の少年時代を思い浮かべた<eos>
+train    reference:   <sos>その結果全国規模の火災法規を改善した<eos>
+train    hypothesis:  <sos>その結果全国規模の火災法規を改善した<eos>
+train    reference:   <sos>かようにして科学の前提となっているものを究めその根拠を明らかにするのが哲学である<eos>
+train    hypothesis:  <sos>かようにして科学の前提となっているものを究めその根拠を明らかにするのが哲学である<eos>
+dev      reference:   <sos>文体が作家に持つ関係は色彩が画家に対するのと同じである<eos>
+dev      hypothesis:  <sos>分体が作家にもつ関係は色彩がかに対するのと同じである<eos>
+dev      reference:   <sos>年輩の夫婦は贈り物より現金を好むことが多いがそれはそうした贈り物は必要でもなければ置く場所もないからである<eos>
+dev      hypothesis:  <sos>年配の夫婦は送り物より元金を好むことが多いがそれはそうし送り物は必要でもなければ屋波所もないからである<eos>
+dev      reference:   <sos>燃えるゴミと燃えないゴミの区別もよく分からないよね<eos>
+dev      hypothesis:  <sos>燃エルゴミと思えないごミの区別もよくわからないよね<eos>
+dev      reference:   <sos>脳手術の最中は医者も看護婦も慎重にしかもできるだけ迅速に患者を扱わなければならない<eos>
+dev      hypothesis:  <sos>脳酒術の最中は医者も韓護フも慎重にし下も出来るだけ人族に患者を扱わなければならない<eos>
+---------------Summary------------------
+Final epoch model -> ./exp_train_large/char_model_conv_non_ar_001/final_model.pt
+    train loss: 0.000542
+    train token error rate: 9.089193 %
+    validation loss: 0.131925
+    validation token error rate: 26.907648 %
+Best epoch model (12-th epoch) -> ./exp_train_large/char_model_conv_non_ar_001/best_model.pt
+    train loss: 0.017522
+    train token error rate: 13.795011 %
+    validation loss: 0.114238
+    validation token error rate: 28.213585 %
