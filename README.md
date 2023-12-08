@@ -13,7 +13,7 @@ TransformerEncoder has 12 layers, 4 heads, hidden dim 512. Also TrnasformerDecod
 
 Position wise feed forward network in both TransformerEncoder and TransformerDecoder has two convolutional layers which have filters (512, 2048) , (2048, 512)), kernel sizes are 5 and 1, strides are both 1, layer norm and dropout with rate 0.1.
 ,
-Input of encoder is 80 bin mel spectrogram, it is input in three convolational layers, filter_size of layers are (80,256), (256,256), (256,512), all kernel sizes are 5, all strides are 1. After convolution there are BatchNorm1d, ReLU and dropout with rate 0.1. And positional embedding values are generated. Then, the sum of comvolatio values and positional embedding values are input in TransformerEncoder with self attention module.
+Input of encoder is 80 bin mel spectrogram, it is input in three convolational layers, filter_size of layers are (80,256), (256,256), (256,512), all kernel sizes are 5, all strides are 1. After convolution there are BatchNorm1d, ReLU and dropout with rate 0.1. And positional embedding values are generated. Then, the sum of comvolatio values and positional embedding values are input in TransformerEncoder as self attention module.
 
 Especially encoder outputs of encoder reduce by 0.25 times with time axis using downsampling module.
 
