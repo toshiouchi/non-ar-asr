@@ -15,7 +15,7 @@ Position wise feed forward network in both TransformerEncoder and TransformerDec
 ,
 Input of encoder is 80 bin mel spectrogram, it is input in three convolational layers, filter_size of layers are (80,256), (256,256), (256,512), all kernel sizes are 5, all strides are 1. After convolution there are BatchNorm1d, ReLU and dropout with rate 0.1. And positional embedding values are generated. Then, the sum of comvolatio values and positional embedding values are input in TransformerEncoder as self attention module.
 
-Especially encoder outputs of encoder reduce by 0.25 times with time axis using downsampling module.
+Especially encoder outputs reduce by 0.25 times with time axis using downsampling module.
 
 TransformerDecoder is used as cross attention module. Source input is encoder ouput and target input is downsampled encoder output with positional embedding. 
 
