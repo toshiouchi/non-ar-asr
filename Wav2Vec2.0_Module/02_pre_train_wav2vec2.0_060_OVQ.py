@@ -128,7 +128,7 @@ def lm_loss( outputs, quantized_vector, mask_n_len ):
         neg_sim_mask = torch.diag( a )
 
         only_neg_sim = neg_sim * ( 1 - neg_sim_mask )
-        neg_sim_avg_avg = torch.mean( torch.mean( only_neg_sim, dim = 1 ), dim = 0 )
+        neg_sim_avg_avg = torch.mean( (torch.sum( only_neg_sim, dim = 1 ) / (mask_n_len[n] - 1 )), dim = 0 )
         neg_sim_sum_avg_avg_sum += neg_sim_avg_avg.item()
 
         neg_similarity = torch.exp( neg_sim / kappar )
