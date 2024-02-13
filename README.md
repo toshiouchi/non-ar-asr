@@ -7,7 +7,7 @@ A machine learning neural ASR program learned With JSUT 1.1 5,000 data and Mozzi
 
 Feature of program
 
-Transformer with convolutional position wise feed forward network is used. 
+Transformer with two convolution layer in spite of position wise feed forward network is used. 
 
 TransformerEncoder has 12 layers, 4 heads, hidden dim 512. Also TrnasformerDecoder has 12 layers, 4 heads, hidden dim 512.
 
